@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import me.hopps.ld27.screens.MenuScreen;
+import me.hopps.ld27.screens.*;
 
 public class ResourceManager {
 
     public Game game;
+
+    public static final int NUMBEROFLEVELS = 1;
 
     public AssetManager assets;
     public BitmapFont smallFont;
@@ -21,6 +23,10 @@ public class ResourceManager {
     public ShapeRenderer shapeRenderer;
 
     public MenuScreen menuScreen;
+    public LoadLevelScreen loadLevelScreen;
+    public GameScreen gameScreen;
+    public GamePauseScreen gamePauseScreen;
+    public GameOverScreen gameOverScreen;
 
     public ResourceManager(Game g) {
         game = g;

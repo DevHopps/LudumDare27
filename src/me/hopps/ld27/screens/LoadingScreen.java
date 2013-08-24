@@ -18,7 +18,7 @@ public class LoadingScreen implements Screen {
     }
 
     private void createLoadingList() {
-        resManager.assets.load("res/levels/1.png", Texture.class);
+        //resManager.assets.load("res/levels/1.png", Texture.class);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class LoadingScreen implements Screen {
         resManager.spriteBatch.end();
 
         resManager.shapeRenderer.begin(ShapeRenderer.ShapeType.Circle);
-        resManager.shapeRenderer.circle(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 100, 64);
+        resManager.shapeRenderer.circle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 100, 64);
         resManager.shapeRenderer.end();
         resManager.shapeRenderer.begin(ShapeRenderer.ShapeType.FilledCircle);
         resManager.shapeRenderer.filledCircle(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 100*percentage, 64);
@@ -39,6 +39,10 @@ public class LoadingScreen implements Screen {
 
         if(resManager.assets.update()) {
             resManager.menuScreen = new MenuScreen(resManager);
+            resManager.loadLevelScreen = new LoadLevelScreen(resManager);
+            resManager.gameScreen = new GameScreen(resManager);
+            resManager.gamePauseScreen = new GamePauseScreen(resManager);
+            resManager.gameOverScreen = new GameOverScreen(resManager);
 
             resManager.game.setScreen(resManager.menuScreen);
         }

@@ -25,7 +25,7 @@ public class MenuScreen implements Screen {
 
         if(Gdx.input.isButtonPressed(0)) {
             if(start.hovered) {
-
+                resManager.game.setScreen(resManager.gameScreen);
             }
             if(exit.hovered) {
                 Gdx.app.exit();

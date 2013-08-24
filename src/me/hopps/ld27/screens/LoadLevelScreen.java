@@ -7,6 +7,8 @@ public class LoadLevelScreen implements Screen {
 
     ResourceManager resManager;
 
+    public int loadLevel = 1;
+
     public LoadLevelScreen(ResourceManager resManager) {
         this.resManager = resManager;
     }
