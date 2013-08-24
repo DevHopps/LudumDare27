@@ -7,6 +7,7 @@ public class Physics extends Component {
     private Rectangle bounds;
     private float velY;
     private boolean active;
+    private boolean touched;
 
     public Physics(Rectangle bounds) {
         setBounds(bounds);
@@ -43,5 +44,13 @@ public class Physics extends Component {
 
     public void addVelY(float add) {
         this.velY += add;
+    }
+
+    public boolean wasTouched() {
+        return touched;
+    }
+
+    public void setTouched(boolean touched) {
+        this.touched = touched;
     }
 }

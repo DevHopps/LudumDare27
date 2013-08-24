@@ -12,13 +12,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import me.hopps.ld27.game.EntityCreator;
 import me.hopps.ld27.game.systems.BlockRenderer;
+import me.hopps.ld27.game.systems.DisappearUpdater;
 import me.hopps.ld27.game.systems.PhysicsUpdater;
 import me.hopps.ld27.utils.ResourceManager;
 
 public class GameScreen implements Screen {
 
-    private static final int MAXLVL = 4;
-    int lvl = 1;
+    private static final int MAXLVL = 5;
+    int lvl = 5;
 
     ResourceManager resManager;
     OrthographicCamera cam;
@@ -43,6 +44,7 @@ public class GameScreen implements Screen {
         if(lvl <= MAXLVL) {
             world = new World();
             world.setSystem(new BlockRenderer(resManager.shapeRenderer));
+            world.setSystem(new DisappearUpdater());
             physics = new PhysicsUpdater();
             world.setSystem(physics);
             world.initialize();
@@ -53,16 +55,19 @@ public class GameScreen implements Screen {
              * -16776961    = Start
              * -2139062017  = DeathTrap
              * 2555903      = End
+             * -2621185     = Disappearing Block
              */
             for(int i = 0; i < level.getWidth(); i++) {
                 for(int k = 0; k < level.getHeight(); k++) {
                     if(level.getPixel(i, k) == -1) {
                         EntityCreator.createBlock(world, i*32, k*32);
                     }
+                    if(level.getPixel(i, k) == -2621185) {
+                        EntityCreator.createDisappeaingBlock(world, i * 32, k * 32);
+                    }
                     if(level.getPixel(i, k) == -16776961) {
-                        x = i * 32f;
-                        y = k * 32f;
-                        System.out.println(y);
+                        x = i * 32f + 4;
+                        y = k * 32f + 4;
                         player = EntityCreator.createPlayer(world, x, y);
                     }
                     if(level.getPixel(i, k) == -2139062017) {
@@ -133,7 +138,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-        this.pause();
     }
 
     @Override

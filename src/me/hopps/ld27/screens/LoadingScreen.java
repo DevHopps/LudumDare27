@@ -39,7 +39,6 @@ public class LoadingScreen implements Screen {
         if(resManager.assets.update()) {
             resManager.menuScreen = new MenuScreen(resManager);
             resManager.gameScreen = new GameScreen(resManager);
-            resManager.gamePauseScreen = new GamePauseScreen(resManager);
             resManager.gameOverScreen = new GameOverScreen(resManager);
 
             resManager.game.setScreen(resManager.menuScreen);

@@ -24,7 +24,6 @@ public class ResourceManager {
 
     public MenuScreen menuScreen;
     public GameScreen gameScreen;
-    public GamePauseScreen gamePauseScreen;
     public GameOverScreen gameOverScreen;
 
     public ResourceManager(Game g) {

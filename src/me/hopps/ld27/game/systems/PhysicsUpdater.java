@@ -11,20 +11,22 @@ import me.hopps.ld27.game.components.*;
 public class PhysicsUpdater extends EntityProcessingSystem {
     @Mapper ComponentMapper<Position> pos;
     @Mapper ComponentMapper<Physics> phy;
-    @Mapper ComponentMapper<Size> size;
+
+    ImmutableBag<Entity> bag;
 
     public boolean jump, left, right, falling, won, lose;
 
     public PhysicsUpdater() {
-        super(Aspect.getAspectForAll(Physics.class));
+        super(Aspect.getAspectForAll(Physics.class, Position.class));
     }
 
     @Override
     protected void process(Entity e) {
-        ImmutableBag<Entity> bag = world.getSystem(PhysicsUpdater.class).getActives();
+        if(bag == null) {
+            bag = world.getSystem(PhysicsUpdater.class).getActives();
+        }
         Physics ph = phy.get(e);
         Position p = pos.get(e);
-        Size s = size.get(e);
 
         if(p.getY() > 620 || p.getX() < -32) {
             lose = true;
@@ -75,6 +77,7 @@ public class PhysicsUpdater extends EntityProcessingSystem {
             if(e != bag.get(i)) {
                 if(ph.getBounds().overlaps(phy.get(bag.get(i)).getBounds())) {
                     if(bag.get(i).getComponent(EndComponent.class) == null && bag.get(i).getComponent(DeadComponent.class) == null) {
+                        phy.get(bag.get(i)).setTouched(true);
                         return true;
                     } else if(bag.get(i).getComponent(EndComponent.class) != null) {
                         won = true;
