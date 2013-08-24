@@ -13,7 +13,7 @@ public class MainStart extends Game {
     public void create() {
         Gdx.gl20.glClearColor(0, 0, 0, 0);
 
-        resManager = new ResourceManager();
+        resManager = new ResourceManager(this);
         LoadingScreen loadingScreen = new LoadingScreen(resManager);
 
         this.setScreen(loadingScreen);

@@ -38,7 +38,9 @@ public class LoadingScreen implements Screen {
         resManager.shapeRenderer.end();
 
         if(resManager.assets.update()) {
+            resManager.menuScreen = new MenuScreen(resManager);
 
+            resManager.game.setScreen(resManager.menuScreen);
         }
     }
 
