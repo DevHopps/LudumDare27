@@ -7,10 +7,19 @@ import me.hopps.ld27.utils.ResourceManager;
 
 public class MainStart extends Game {
 
+    ResourceManager resManager;
+
     @Override
     public void create() {
         Gdx.gl20.glClearColor(0, 0, 0, 0);
 
-        this.setScreen(new LoadingScreen(new ResourceManager()));
+        resManager = new ResourceManager();
+        LoadingScreen loadingScreen = new LoadingScreen(resManager);
+
+        this.setScreen(loadingScreen);
+    }
+
+    public void dispose() {
+        resManager.dispose();
     }
 }

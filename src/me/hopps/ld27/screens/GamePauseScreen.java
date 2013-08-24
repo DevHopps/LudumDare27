@@ -3,12 +3,11 @@ package me.hopps.ld27.screens;
 import com.badlogic.gdx.Screen;
 import me.hopps.ld27.utils.ResourceManager;
 
-public class GameScreen implements Screen {
+public class GamePauseScreen implements Screen {
 
     ResourceManager resManager;
-    boolean pause = false;
 
-    public GameScreen(ResourceManager resManager) {
+    public GamePauseScreen(ResourceManager resManager) {
         this.resManager = resManager;
     }
 
@@ -26,7 +25,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-        this.pause();
     }
 
     @Override
