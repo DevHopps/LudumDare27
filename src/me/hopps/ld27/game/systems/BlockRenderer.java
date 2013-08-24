@@ -29,8 +29,6 @@ public class BlockRenderer extends EntityProcessingSystem {
         Size s = size.get(e);
         ColorComponent c = color.get(e);
         shapeRenderer.setColor(c.getColor());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
         shapeRenderer.filledRect(p.getX(), p.getY(), s.getWidth(), s.getHeight());
-        shapeRenderer.end();
     }
 }

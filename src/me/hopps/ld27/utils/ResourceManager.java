@@ -23,7 +23,6 @@ public class ResourceManager {
     public ShapeRenderer shapeRenderer;
 
     public MenuScreen menuScreen;
-    public LoadLevelScreen loadLevelScreen;
     public GameScreen gameScreen;
     public GamePauseScreen gamePauseScreen;
     public GameOverScreen gameOverScreen;
