@@ -27,6 +27,7 @@ public class LoadingScreen implements Screen {
         resManager.assets.load("res/sounds/beep.wav", Sound.class);
 
         resManager.assets.load("res/img/intro.png", Texture.class);
+        resManager.assets.load("res/img/looser.png", Texture.class);
     }
 
     @Override

@@ -6,10 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import me.hopps.ld27.game.EntityCreator;
@@ -21,8 +18,9 @@ import me.hopps.ld27.utils.ResourceManager;
 public class GameScreen implements Screen {
 
     private static final int MAXLVL = 7;
-    int lvl = 7;
+    int lvl = 1;
 
+    public int fails;
     ResourceManager resManager;
     OrthographicCamera cam;
     PhysicsUpdater physics;
@@ -81,6 +79,9 @@ public class GameScreen implements Screen {
                 }
             }
             level.dispose();
+        } else {
+            resManager.game.setScreen(resManager.gameOverScreen);
+            return;
         }
     }
 
@@ -93,6 +94,7 @@ public class GameScreen implements Screen {
             started = false;
             resManager.assets.get("res/sounds/boom.wav", Sound.class).play();
             createLevel(lvl);
+            fails++;
         }
         if(physics.won) {
             player.disable();
@@ -146,6 +148,9 @@ public class GameScreen implements Screen {
             resManager.smallFont.setColor(Color.GRAY);
             resManager.smallFont.draw(resManager.spriteBatch,"Press Space to start, then use W/A/D to move", Gdx.graphics.getWidth()/2 - resManager.smallFont.getBounds("Press Space to start, then use W/A/D to move").width/2, 265);
             resManager.smallFont.setColor(Color.WHITE);
+        }
+        if(lvl == 7) {
+            resManager.spriteBatch.draw(resManager.assets.get("res/img/looser.png", Texture.class), 550, 180);
         }
         resManager.spriteBatch.end();
     }
