@@ -14,7 +14,7 @@ public class Bag<E> implements ImmutableBag<E> {
 	 * 
 	 */
 	public Bag() {
-		this(64);
+		this(128);
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class Bag<E> implements ImmutableBag<E> {
 	 */
 	public void add(E e) {
 		// is size greater than capacity increase capacity
-		if (size == data.length) {
+		if (size >= data.length) {
 			grow();
 		}
 
@@ -237,7 +237,7 @@ public class Bag<E> implements ImmutableBag<E> {
 
 	/**
 	 * Add all items into this bag. 
-	 * @param added
+	 * @param
 	 */
 	public void addAll(ImmutableBag<E> items) {
 		for(int i = 0; items.size() > i; i++) {

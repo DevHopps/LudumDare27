@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -19,8 +20,8 @@ import me.hopps.ld27.utils.ResourceManager;
 
 public class GameScreen implements Screen {
 
-    private static final int MAXLVL = 5;
-    int lvl = 5;
+    private static final int MAXLVL = 7;
+    int lvl = 7;
 
     ResourceManager resManager;
     OrthographicCamera cam;
@@ -42,7 +43,6 @@ public class GameScreen implements Screen {
     }
 
     private void createLevel(int lvl) {
-
         if(lvl <= MAXLVL) {
             world = new World();
             world.setSystem(new BlockRenderer(resManager.shapeRenderer));
@@ -80,6 +80,7 @@ public class GameScreen implements Screen {
                     }
                 }
             }
+            level.dispose();
         }
     }
 
@@ -132,19 +133,21 @@ public class GameScreen implements Screen {
             physics.lose = true;
         }
 
-        resManager.spriteBatch.begin();
-        resManager.bigFont.draw(resManager.spriteBatch,"" + ((10000 + startTime - TimeUtils.millis())/1000), 400 - resManager.bigFont.getBounds("" + ((10000 + startTime - TimeUtils.millis())/1000)).width/2, 325);
-        if(!started) {
-            resManager.smallFont.draw(resManager.spriteBatch,"Press Space to start, then use W/A/D to move", Gdx.graphics.getWidth()/2 - resManager.smallFont.getBounds("Press Space to start, then use W/A/D to move").width/2, 265);
-        }
-        resManager.spriteBatch.end();
-
         cam.update();
         resManager.shapeRenderer.setProjectionMatrix(cam.combined);
         resManager.shapeRenderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
         world.setDelta(delta);
         world.process();
         resManager.shapeRenderer.end();
+
+        resManager.spriteBatch.begin();
+        resManager.bigFont.draw(resManager.spriteBatch,"" + ((10100 + startTime - TimeUtils.millis())/1000), 400 - resManager.bigFont.getBounds("" + ((10100 + startTime - TimeUtils.millis())/1000)).width/2, 325);
+        if(!started) {
+            resManager.smallFont.setColor(Color.GRAY);
+            resManager.smallFont.draw(resManager.spriteBatch,"Press Space to start, then use W/A/D to move", Gdx.graphics.getWidth()/2 - resManager.smallFont.getBounds("Press Space to start, then use W/A/D to move").width/2, 265);
+            resManager.smallFont.setColor(Color.WHITE);
+        }
+        resManager.spriteBatch.end();
     }
 
     @Override

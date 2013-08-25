@@ -46,8 +46,10 @@ public class PhysicsUpdater extends EntityProcessingSystem {
             if(checkCollision(e, ph, bag)) {
                 p.addY(-ph.getVelY() * world.delta);
                 ph.getBounds().setY(p.getY());
+                if(ph.getVelY() >= 0) {
+                    falling = false;
+                }
                 ph.setVelY(0f);
-                falling = false;
             }
 
             if(jump) {
