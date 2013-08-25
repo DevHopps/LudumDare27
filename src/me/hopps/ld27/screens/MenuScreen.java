@@ -40,7 +40,7 @@ public class MenuScreen implements Screen {
 
         resManager.spriteBatch.begin();
         resManager.spriteBatch.draw(resManager.assets.get("res/img/intro.png", Texture.class), 0, 0);
-        resManager.bigFont.draw(resManager.spriteBatch, "Game Name", Gdx.graphics.getWidth() / 2 - resManager.bigFont.getBounds("Game Name").width / 2, Gdx.graphics.getHeight() - 100);
+        resManager.bigFont.draw(resManager.spriteBatch, "10 Seconds Jump", Gdx.graphics.getWidth() / 2 - resManager.bigFont.getBounds("10 Seconds Jump").width / 2, Gdx.graphics.getHeight() - 100);
         start.render(resManager.spriteBatch);
         exit.render(resManager.spriteBatch);
         resManager.spriteBatch.end();
