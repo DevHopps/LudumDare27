@@ -2,6 +2,7 @@ package me.hopps.ld27.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import me.hopps.ld27.utils.ResourceManager;
@@ -17,7 +18,12 @@ public class LoadingScreen implements Screen {
     }
 
     private void createLoadingList() {
-        //resManager.assets.load("res/levels/1.png", Texture.class);
+        resManager.assets.load("res/sounds/boom.wav", Sound.class);
+        resManager.assets.load("res/sounds/jay.wav", Sound.class);
+        resManager.assets.load("res/sounds/jump.wav", Sound.class);
+        resManager.assets.load("res/sounds/ouch.wav", Sound.class);
+        resManager.assets.load("res/sounds/select.wav", Sound.class);
+        resManager.assets.load("res/sounds/beep.wav", Sound.class);
     }
 
     @Override

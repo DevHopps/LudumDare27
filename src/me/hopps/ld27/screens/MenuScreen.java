@@ -2,6 +2,7 @@ package me.hopps.ld27.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import me.hopps.ld27.utils.ResourceManager;
@@ -25,10 +26,14 @@ public class MenuScreen implements Screen {
 
         if(Gdx.input.isButtonPressed(0)) {
             if(start.hovered) {
+                resManager.assets.get("res/sounds/select.wav", Sound.class).play();
                 resManager.game.setScreen(resManager.gameScreen);
+                return;
             }
             if(exit.hovered) {
+                resManager.assets.get("res/sounds/select.wav", Sound.class).play();
                 Gdx.app.exit();
+                return;
             }
         }
 

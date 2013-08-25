@@ -5,14 +5,18 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.TimeUtils;
 import me.hopps.ld27.game.components.*;
 
 public class DisappearUpdater extends EntityProcessingSystem {
     @Mapper ComponentMapper<Disappear> dis;
 
-    public DisappearUpdater() {
+    Sound ouch;
+
+    public DisappearUpdater(Sound sound) {
         super(Aspect.getAspectForAll(Disappear.class));
+        ouch = sound;
     }
 
     @Override
@@ -23,8 +27,9 @@ public class DisappearUpdater extends EntityProcessingSystem {
                 p.setTimer(TimeUtils.millis());
                 p.setTimerStarted(true);
             } else {
-                if(TimeUtils.millis() - p.getTimer() > 800) {
+                if(TimeUtils.millis() - p.getTimer() > 700) {
                     e.disable();
+                    ouch.play();
                 }
             }
         }

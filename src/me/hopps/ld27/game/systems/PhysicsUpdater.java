@@ -6,6 +6,8 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.TimeUtils;
 import me.hopps.ld27.game.components.*;
 
 public class PhysicsUpdater extends EntityProcessingSystem {
@@ -13,11 +15,15 @@ public class PhysicsUpdater extends EntityProcessingSystem {
     @Mapper ComponentMapper<Physics> phy;
 
     ImmutableBag<Entity> bag;
+    Sound jumpSound;
+
+    long lastPlay;
 
     public boolean jump, left, right, falling, won, lose;
 
-    public PhysicsUpdater() {
+    public PhysicsUpdater(Sound jump) {
         super(Aspect.getAspectForAll(Physics.class, Position.class));
+        this.jumpSound = jump;
     }
 
     @Override
@@ -48,6 +54,10 @@ public class PhysicsUpdater extends EntityProcessingSystem {
                 if(!falling) {
                     ph.setVelY(-400f);
                     falling = true;
+                    if(TimeUtils.millis() - lastPlay > 170) {
+                        lastPlay = TimeUtils.millis();
+                        jumpSound.play();
+                    }
                 }
                 jump = false;
             }

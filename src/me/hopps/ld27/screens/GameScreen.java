@@ -5,6 +5,7 @@ import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -24,10 +25,10 @@ public class GameScreen implements Screen {
     ResourceManager resManager;
     OrthographicCamera cam;
     PhysicsUpdater physics;
-    boolean pause = false, started;
+    boolean started;
     World world;
     Entity player;
-    float x, y;
+    float x, y, r;
     long startTime;
 
     public GameScreen(ResourceManager resManager) {
@@ -41,11 +42,12 @@ public class GameScreen implements Screen {
     }
 
     private void createLevel(int lvl) {
+
         if(lvl <= MAXLVL) {
             world = new World();
             world.setSystem(new BlockRenderer(resManager.shapeRenderer));
-            world.setSystem(new DisappearUpdater());
-            physics = new PhysicsUpdater();
+            world.setSystem(new DisappearUpdater(resManager.assets.get("res/sounds/ouch.wav", Sound.class)));
+            physics = new PhysicsUpdater(resManager.assets.get("res/sounds/jump.wav", Sound.class));
             world.setSystem(physics);
             world.initialize();
 
@@ -84,22 +86,32 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        r += delta;
 
         if(physics.lose) {
             player.disable();
             player = EntityCreator.createPlayer(world, x, y);
             started = false;
             physics.lose = false;
+            resManager.assets.get("res/sounds/boom.wav", Sound.class).play();
         }
         if(physics.won) {
+            player.disable();
+            player = EntityCreator.createPlayer(world, x, y);
             started = false;
+            resManager.assets.get("res/sounds/jay.wav", Sound.class).play();
+            physics.won = false;
             createLevel(++lvl);
         }
         if(!started) {
             startTime = TimeUtils.millis();
+            r = 0;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            started = true;
+            if(!started) {
+                started = true;
+                resManager.assets.get("res/sounds/select.wav", Sound.class).play();
+            }
         }
         if(started) {
             if(Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
@@ -111,6 +123,15 @@ public class GameScreen implements Screen {
             if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 physics.left = true;
             }
+        }
+
+        if(r > 1f) {
+            resManager.assets.get("res/sounds/beep.wav", Sound.class).play();
+            r -= 1f;
+        }
+
+        if(10000 + startTime - TimeUtils.millis() < 0) {
+            physics.lose = true;
         }
 
         resManager.spriteBatch.begin();
