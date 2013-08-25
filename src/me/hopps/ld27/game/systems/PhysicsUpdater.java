@@ -34,7 +34,7 @@ public class PhysicsUpdater extends EntityProcessingSystem {
         Physics ph = phy.get(e);
         Position p = pos.get(e);
 
-        if(p.getY() > 620 || p.getX() < -32) {
+        if(p.getY() > 620 || p.getX() < -32 || p.getX() > 832) {
             lose = true;
         }
 
