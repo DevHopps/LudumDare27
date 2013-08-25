@@ -14,7 +14,7 @@ public class Bag<E> implements ImmutableBag<E> {
 	 * 
 	 */
 	public Bag() {
-		this(128);
+		this(256);
 	}
 
 	/**
