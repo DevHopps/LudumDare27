@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import me.hopps.ld27.utils.ResourceManager;
 import me.hopps.ld27.utils.ui.ColorButton;
 
@@ -38,6 +39,7 @@ public class MenuScreen implements Screen {
         }
 
         resManager.spriteBatch.begin();
+        resManager.spriteBatch.draw(resManager.assets.get("res/img/intro.png", Texture.class), 0, 0);
         resManager.bigFont.draw(resManager.spriteBatch, "Game Name", Gdx.graphics.getWidth() / 2 - resManager.bigFont.getBounds("Game Name").width / 2, Gdx.graphics.getHeight() - 100);
         start.render(resManager.spriteBatch);
         exit.render(resManager.spriteBatch);

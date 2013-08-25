@@ -89,11 +89,9 @@ public class GameScreen implements Screen {
         r += delta;
 
         if(physics.lose) {
-            player.disable();
-            player = EntityCreator.createPlayer(world, x, y);
             started = false;
-            physics.lose = false;
             resManager.assets.get("res/sounds/boom.wav", Sound.class).play();
+            createLevel(lvl);
         }
         if(physics.won) {
             player.disable();
