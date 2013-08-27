@@ -36,7 +36,7 @@ public class PlayerUpdater extends EntityProcessingSystem  {
             Physics phy = physics.get(e);
             PlayerComponent p = player.get(e);
 
-            if(phy.collisionEntity.getComponent(DeadComponent.class) != null) {
+            if(phy.collisionEntity != null && phy.collisionEntity.getComponent(DeadComponent.class) != null) {
                 p.setLost(true);
             }
 
@@ -44,7 +44,7 @@ public class PlayerUpdater extends EntityProcessingSystem  {
                 p.setLost(true);
             }
 
-            if(phy.collisionEntity.getComponent(EndComponent.class) != null) {
+            if(phy.collisionEntity != null && phy.collisionEntity.getComponent(EndComponent.class) != null) {
                 p.setWon(true);
             }
 
