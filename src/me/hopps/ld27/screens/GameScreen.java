@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
                         EntityCreator.createBlock(world, i*32, k*32);
                     }
                     if(level.getPixel(i, k) == -2621185) {
-                        EntityCreator.createDisappeaingBlock(world, i * 32, k * 32);
+                        EntityCreator.createDisappearingBlock(world, i * 32, k * 32);
                     }
                     if(level.getPixel(i, k) == -16776961) {
                         x = i * 32f + 4;

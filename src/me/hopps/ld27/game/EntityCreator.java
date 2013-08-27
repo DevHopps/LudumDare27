@@ -47,7 +47,7 @@ public class EntityCreator {
         e.addToWorld();
     }
 
-    public static void createDisappeaingBlock(World world, int x, int y) {
+    public static void createDisappearingBlock(World world, int x, int y) {
         Entity e = world.createEntity();
         e.addComponent(new Position(x, y));
         e.addComponent(new Size(32, 32));
