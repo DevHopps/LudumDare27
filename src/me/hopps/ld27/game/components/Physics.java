@@ -1,13 +1,18 @@
 package me.hopps.ld27.game.components;
 
 import com.artemis.Component;
+import com.artemis.Entity;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Physics extends Component {
     private Rectangle bounds;
     private float velY;
     private boolean active;
-    private boolean touched;
+    private boolean collision;
+    private Vector2 oldPos;
+    public boolean falling;
+    public Entity collisionEntity;
 
     public Physics(Rectangle bounds) {
         setBounds(bounds);
@@ -46,11 +51,19 @@ public class Physics extends Component {
         this.velY += add;
     }
 
-    public boolean wasTouched() {
-        return touched;
+    public boolean isCollision() {
+        return collision;
     }
 
-    public void setTouched(boolean touched) {
-        this.touched = touched;
+    public void setCollision(boolean collision) {
+        this.collision = collision;
+    }
+
+    public void savePosition() {
+        oldPos = new Vector2(bounds.x, bounds.y);
+    }
+
+    public Vector2 getOldPos() {
+        return oldPos;
     }
 }

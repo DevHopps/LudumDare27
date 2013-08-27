@@ -22,7 +22,7 @@ public class DisappearUpdater extends EntityProcessingSystem {
     @Override
     protected void process(Entity e) {
         Disappear p = dis.get(e);
-        if(e.getComponent(Physics.class).wasTouched()) {
+        if(e.getComponent(Physics.class).isCollision()) {
             if(!p.isTimerStarted()) {
                 p.setTimer(TimeUtils.millis());
                 p.setTimerStarted(true);

@@ -23,6 +23,7 @@ public class EntityCreator {
         e.addComponent(new Size(24, 24));
         e.addComponent(new ColorComponent(Color.GREEN));
         e.addComponent(new Physics(new Rectangle(x,y,24,24), true));
+        e.addComponent(new PlayerComponent());
         e.addToWorld();
         return e;
     }

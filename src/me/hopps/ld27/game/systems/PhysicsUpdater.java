@@ -6,8 +6,7 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.math.Vector2;
 import me.hopps.ld27.game.components.*;
 
 public class PhysicsUpdater extends EntityProcessingSystem {
@@ -15,15 +14,9 @@ public class PhysicsUpdater extends EntityProcessingSystem {
     @Mapper ComponentMapper<Physics> phy;
 
     ImmutableBag<Entity> bag;
-    Sound jumpSound;
 
-    long lastPlay;
-
-    public boolean jump, left, right, falling, won, lose;
-
-    public PhysicsUpdater(Sound jump) {
+    public PhysicsUpdater() {
         super(Aspect.getAspectForAll(Physics.class, Position.class));
-        this.jumpSound = jump;
     }
 
     @Override
@@ -34,52 +27,33 @@ public class PhysicsUpdater extends EntityProcessingSystem {
         Physics ph = phy.get(e);
         Position p = pos.get(e);
 
-        if(p.getY() > 620 || p.getX() < -32 || p.getX() > 832) {
-            lose = true;
-        }
-
         if(ph.isActive()) {
+            ph.falling = true;
             ph.addVelY(1000f * world.delta);
             p.addY(ph.getVelY() * world.delta);
             ph.getBounds().setY(p.getY());
-            falling = true;
+
             if(checkCollision(e, ph, bag)) {
                 p.addY(-ph.getVelY() * world.delta);
                 ph.getBounds().setY(p.getY());
                 if(ph.getVelY() >= 0) {
-                    falling = false;
+                    ph.falling = false;
                 }
-                ph.setVelY(0f);
+                ph.setVelY(0);
             }
 
-            if(jump) {
-                if(!falling) {
-                    ph.setVelY(-400f);
-                    falling = true;
-                    if(TimeUtils.millis() - lastPlay > 170) {
-                        lastPlay = TimeUtils.millis();
-                        jumpSound.play();
-                    }
+            ph.getBounds().setX(p.getX());
+            if(!checkCollision(e, ph, bag)) {
+                ph.savePosition();
+            } else {
+                Vector2 old = ph.getOldPos();
+                p.setX(old.x);
+                ph.getBounds().setX(old.x);
+                if(!ph.falling) {
+                    p.setY(old.y);
+                    ph.getBounds().setY(old.y);
                 }
-                jump = false;
-            }
-            if(right) {
-                right = false;
-                p.addX(250f* world.delta);
-                ph.getBounds().setX(p.getX());
-                if(checkCollision(e, ph, bag)) {
-                    p.addX(-250f* world.delta);
-                    ph.getBounds().setX(p.getX());
-                }
-            }
-            if(left) {
-                left = false;
-                p.addX(-250f* world.delta);
-                ph.getBounds().setX(p.getX());
-                if(checkCollision(e, ph, bag)) {
-                    p.addX(250f* world.delta);
-                    ph.getBounds().setX(p.getX());
-                }
+                ph.savePosition();
             }
         }
     }
@@ -88,17 +62,15 @@ public class PhysicsUpdater extends EntityProcessingSystem {
         for(int i = 0; i < bag.size(); i++) {
             if(e != bag.get(i)) {
                 if(ph.getBounds().overlaps(phy.get(bag.get(i)).getBounds())) {
-                    if(bag.get(i).getComponent(EndComponent.class) == null && bag.get(i).getComponent(DeadComponent.class) == null) {
-                        phy.get(bag.get(i)).setTouched(true);
-                        return true;
-                    } else if(bag.get(i).getComponent(EndComponent.class) != null) {
-                        won = true;
-                    } else if(bag.get(i).getComponent(DeadComponent.class) != null) {
-                        lose = true;
-                    }
+                    ph.collisionEntity = bag.get(i);
+                    phy.get(bag.get(i)).setCollision(true);
+                    ph.setCollision(true);
+                    return true;
                 }
+                //phy.get(bag.get(i)).setCollision(false);
             }
         }
+        ph.setCollision(false);
         return false;
     }
 }

@@ -2,6 +2,7 @@ package me.hopps.ld27.screens;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -10,9 +11,11 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import me.hopps.ld27.game.EntityCreator;
+import me.hopps.ld27.game.components.PlayerComponent;
 import me.hopps.ld27.game.systems.BlockRenderer;
 import me.hopps.ld27.game.systems.DisappearUpdater;
 import me.hopps.ld27.game.systems.PhysicsUpdater;
+import me.hopps.ld27.game.systems.PlayerUpdater;
 import me.hopps.ld27.utils.ResourceManager;
 
 public class GameScreen implements Screen {
@@ -24,7 +27,7 @@ public class GameScreen implements Screen {
     ResourceManager resManager;
     OrthographicCamera cam;
     PhysicsUpdater physics;
-    boolean started;
+    public boolean started;
     World world;
     Entity player;
     float x, y, r;
@@ -45,8 +48,9 @@ public class GameScreen implements Screen {
             world = new World();
             world.setSystem(new BlockRenderer(resManager.shapeRenderer));
             world.setSystem(new DisappearUpdater(resManager.assets.get("res/sounds/ouch.wav", Sound.class)));
-            physics = new PhysicsUpdater(resManager.assets.get("res/sounds/jump.wav", Sound.class));
-            world.setSystem(physics);
+            world.setSystem(new PlayerUpdater(this, Gdx.input, resManager.assets.get("res/sounds/jump.wav", Sound.class)));
+            world.setSystem(new PhysicsUpdater());
+            world.setManager(new TagManager());
             world.initialize();
 
             Pixmap level = new Pixmap(Gdx.files.internal("res/levels/" + lvl + ".png"));
@@ -69,6 +73,7 @@ public class GameScreen implements Screen {
                         x = i * 32f + 4;
                         y = k * 32f + 4;
                         player = EntityCreator.createPlayer(world, x, y);
+                        world.getManager(TagManager.class).register("PLAYER", player);
                     }
                     if(level.getPixel(i, k) == -2139062017) {
                         EntityCreator.createTrap(world, i * 32, k * 32);
@@ -90,18 +95,15 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         r += delta;
 
-        if(physics.lose) {
+        if(world.getManager(TagManager.class).getEntity("PLAYER").getComponent(PlayerComponent.class).isLost()) {
             started = false;
             resManager.assets.get("res/sounds/boom.wav", Sound.class).play();
             createLevel(lvl);
             fails++;
         }
-        if(physics.won) {
-            player.disable();
-            player = EntityCreator.createPlayer(world, x, y);
+        if(world.getManager(TagManager.class).getEntity("PLAYER").getComponent(PlayerComponent.class).isWon()) {
             started = false;
             resManager.assets.get("res/sounds/jay.wav", Sound.class).play();
-            physics.won = false;
             createLevel(++lvl);
         }
         if(!started) {
@@ -112,17 +114,7 @@ public class GameScreen implements Screen {
             if(!started) {
                 started = true;
                 resManager.assets.get("res/sounds/select.wav", Sound.class).play();
-            }
-        }
-        if(started) {
-            if(Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                physics.jump = true;
-            }
-            if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                physics.right = true;
-            }
-            if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                physics.left = true;
+                resManager.assets.get("res/sounds/beep.wav", Sound.class).play();
             }
         }
 
@@ -132,7 +124,7 @@ public class GameScreen implements Screen {
         }
 
         if(10000 + startTime - TimeUtils.millis() < 0) {
-            physics.lose = true;
+            world.getManager(TagManager.class).getEntity("PLAYER").getComponent(PlayerComponent.class).setLost(true);
         }
 
         cam.update();
