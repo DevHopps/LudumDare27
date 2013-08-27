@@ -14,7 +14,7 @@ public class Bag<E> implements ImmutableBag<E> {
 	 * 
 	 */
 	public Bag() {
-		this(256);
+		this(16);
 	}
 
 	/**
@@ -133,9 +133,12 @@ public class Bag<E> implements ImmutableBag<E> {
 	 *            index of the element to return
 	 * @return the element at the specified position in bag
 	 */
-	public E get(int index) {
-		return data[index];
-	}
+    public E get(int index) {
+        if(index < data.length) {
+            return data[index];
+        }
+        return null;
+    }
 
 	/**
 	 * Returns the number of elements in this bag.
@@ -183,7 +186,7 @@ public class Bag<E> implements ImmutableBag<E> {
 	 */
 	public void add(E e) {
 		// is size greater than capacity increase capacity
-		if (size >= data.length) {
+		if (size == data.length) {
 			grow();
 		}
 
@@ -215,7 +218,7 @@ public class Bag<E> implements ImmutableBag<E> {
 		data = (E[])new Object[newCapacity];
 		System.arraycopy(oldData, 0, data, 0, oldData.length);
 	}
-	
+
 	public void ensureCapacity(int index) {
 		if(index >= data.length) {
 			grow(index*2);
