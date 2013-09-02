@@ -67,7 +67,7 @@ public class PhysicsUpdater extends EntityProcessingSystem {
                     ph.setCollision(true);
                     return true;
                 } else {
-                    phy.get(bag.get(i)).setCollision(false);
+                    //phy.get(bag.get(i)).setCollision(false);
                 }
             }
         }
