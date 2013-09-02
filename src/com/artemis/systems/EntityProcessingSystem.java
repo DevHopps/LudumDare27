@@ -24,11 +24,31 @@ public abstract class EntityProcessingSystem extends EntitySystem {
 	 */
 	protected abstract void process(Entity e);
 
+    /**
+     * What should happen before all entities in the System are processed?
+     *
+     * Override if needed,
+     * Default: Nothing
+     */
+    protected void before() {
+    }
+
+    /**
+     * What should happen after all entities in the System were processed?
+     *
+     * Override if needed,
+     * Default: Nothing
+     */
+    protected void after() {
+    }
+
 	@Override
 	protected final void processEntities(ImmutableBag<Entity> entities) {
+        before();
 		for (int i = 0, s = entities.size(); s > i; i++) {
 			process(entities.get(i));
 		}
+        after();
 	}
 	
 	@Override
