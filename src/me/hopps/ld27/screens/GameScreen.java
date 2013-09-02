@@ -15,6 +15,7 @@ import me.hopps.ld27.game.systems.BlockRenderer;
 import me.hopps.ld27.game.systems.DisappearUpdater;
 import me.hopps.ld27.game.systems.PhysicsUpdater;
 import me.hopps.ld27.game.systems.PlayerUpdater;
+import me.hopps.ld27.utils.InputListener;
 import me.hopps.ld27.utils.ResourceManager;
 
 public class GameScreen implements Screen {
@@ -31,12 +32,27 @@ public class GameScreen implements Screen {
     float x, y, r;
     long startTime;
 
-    public GameScreen(ResourceManager resManager) {
+    public GameScreen(final ResourceManager resManager) {
         cam = new OrthographicCamera();
         cam.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.position.set(400f, 300f, 0f);
         cam.update();
         this.resManager = resManager;
+
+        Gdx.input.setInputProcessor(new InputListener() {
+            @Override
+            public boolean keyUp(int i) {
+                if(i == Input.Keys.SPACE) {
+                    if(!started) {
+                        started = true;
+                        resManager.assets.get("res/sounds/select.wav", Sound.class).play(0.25f);
+                        resManager.assets.get("res/sounds/beep.wav", Sound.class).play(0.25f);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
 
         createLevel(lvl);
     }
@@ -106,13 +122,6 @@ public class GameScreen implements Screen {
         if(!started) {
             startTime = TimeUtils.millis();
             r = 0;
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if(!started) {
-                started = true;
-                resManager.assets.get("res/sounds/select.wav", Sound.class).play(0.25f);
-                resManager.assets.get("res/sounds/beep.wav", Sound.class).play(0.25f);
-            }
         }
 
         if(r > 1f) {

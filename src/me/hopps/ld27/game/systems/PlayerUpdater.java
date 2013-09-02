@@ -5,7 +5,9 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.TimeUtils;
 import me.hopps.ld27.game.components.*;
@@ -48,13 +50,13 @@ public class PlayerUpdater extends EntityProcessingSystem  {
                 p.setWon(true);
             }
 
-            if(input.isKeyPressed(Input.Keys.D)) {
+            if(input.isKeyPressed(Input.Keys.D) || input.isKeyPressed(Input.Keys.RIGHT)) {
                 pos.addX(250f * world.delta);
             }
-            if(input.isKeyPressed(Input.Keys.A)) {
+            if(input.isKeyPressed(Input.Keys.A) || input.isKeyPressed(Input.Keys.LEFT)) {
                 pos.addX(-250f * world.delta);
             }
-            if(input.isKeyPressed(Input.Keys.W)) {
+            if(input.isKeyPressed(Input.Keys.W) || input.isKeyPressed(Input.Keys.UP) || input.isKeyPressed(Input.Keys.SPACE)) {
                 if(!phy.falling) {
                     if(TimeUtils.millis() - lastPlay > 170) {
                         lastPlay = TimeUtils.millis();
