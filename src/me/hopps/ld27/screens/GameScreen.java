@@ -8,7 +8,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import me.hopps.ld27.game.EntityCreator;
 import me.hopps.ld27.game.components.PlayerComponent;
@@ -26,7 +25,6 @@ public class GameScreen implements Screen {
     public int fails;
     ResourceManager resManager;
     OrthographicCamera cam;
-    PhysicsUpdater physics;
     public boolean started;
     World world;
     Entity player;
@@ -86,7 +84,6 @@ public class GameScreen implements Screen {
             level.dispose();
         } else {
             resManager.game.setScreen(resManager.gameOverScreen);
-            return;
         }
     }
 
