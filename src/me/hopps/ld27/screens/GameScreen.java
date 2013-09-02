@@ -129,10 +129,8 @@ public class GameScreen implements Screen {
 
         cam.update();
         resManager.shapeRenderer.setProjectionMatrix(cam.combined);
-        resManager.shapeRenderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
         world.setDelta(delta);
         world.process();
-        resManager.shapeRenderer.end();
 
         resManager.spriteBatch.begin();
         resManager.bigFont.draw(resManager.spriteBatch,"" + ((10100 + startTime - TimeUtils.millis())/1000), 400 - resManager.bigFont.getBounds("" + ((10100 + startTime - TimeUtils.millis())/1000)).width/2, 325);

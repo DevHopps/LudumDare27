@@ -24,6 +24,16 @@ public class BlockRenderer extends EntityProcessingSystem {
     }
 
     @Override
+    public void before() {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
+    }
+
+    @Override
+    public void after() {
+        shapeRenderer.end();
+    }
+
+    @Override
     protected void process(Entity e) {
         Position p = pos.get(e);
         Size s = size.get(e);
