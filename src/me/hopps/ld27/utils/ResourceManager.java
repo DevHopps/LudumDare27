@@ -10,10 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import me.hopps.ld27.screens.*;
 
 public class ResourceManager {
-
     public Game game;
-
-    public static final int NUMBEROFLEVELS = 1;
 
     public AssetManager assets;
     public BitmapFont smallFont;
