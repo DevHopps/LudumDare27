@@ -97,13 +97,13 @@ public class GameScreen implements Screen {
 
         if(world.getManager(TagManager.class).getEntity("PLAYER").getComponent(PlayerComponent.class).isLost()) {
             started = false;
-            resManager.assets.get("res/sounds/boom.wav", Sound.class).play();
+            resManager.assets.get("res/sounds/boom.wav", Sound.class).play(0.25f);
             createLevel(lvl);
             fails++;
         }
         if(world.getManager(TagManager.class).getEntity("PLAYER").getComponent(PlayerComponent.class).isWon()) {
             started = false;
-            resManager.assets.get("res/sounds/jay.wav", Sound.class).play();
+            resManager.assets.get("res/sounds/jay.wav", Sound.class).play(0.25f);
             createLevel(++lvl);
         }
         if(!started) {
@@ -113,13 +113,13 @@ public class GameScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if(!started) {
                 started = true;
-                resManager.assets.get("res/sounds/select.wav", Sound.class).play();
-                resManager.assets.get("res/sounds/beep.wav", Sound.class).play();
+                resManager.assets.get("res/sounds/select.wav", Sound.class).play(0.25f);
+                resManager.assets.get("res/sounds/beep.wav", Sound.class).play(0.25f);
             }
         }
 
         if(r > 1f) {
-            resManager.assets.get("res/sounds/beep.wav", Sound.class).play();
+            resManager.assets.get("res/sounds/beep.wav", Sound.class).play(0.25f);
             r -= 1f;
         }
 

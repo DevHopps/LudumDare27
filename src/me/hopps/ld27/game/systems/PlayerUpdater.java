@@ -58,7 +58,7 @@ public class PlayerUpdater extends EntityProcessingSystem  {
                 if(!phy.falling) {
                     if(TimeUtils.millis() - lastPlay > 170) {
                         lastPlay = TimeUtils.millis();
-                        jumpSound.play();
+                        jumpSound.play(0.25f);
                     }
                     phy.setVelY(-400f);
                     phy.falling = true;

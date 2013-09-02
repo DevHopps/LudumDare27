@@ -27,12 +27,12 @@ public class MenuScreen implements Screen {
 
         if(Gdx.input.isButtonPressed(0)) {
             if(start.hovered) {
-                resManager.assets.get("res/sounds/select.wav", Sound.class).play();
+                resManager.assets.get("res/sounds/select.wav", Sound.class).play(0.25f);
                 resManager.game.setScreen(resManager.gameScreen);
                 return;
             }
             if(exit.hovered) {
-                resManager.assets.get("res/sounds/select.wav", Sound.class).play();
+                resManager.assets.get("res/sounds/select.wav", Sound.class).play(0.25f);
                 Gdx.app.exit();
                 return;
             }
