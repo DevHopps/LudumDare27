@@ -229,14 +229,10 @@ public class Bag<E> implements ImmutableBag<E> {
 	 * Removes all of the elements from this bag. The bag will be empty after
 	 * this call returns.
 	 */
-	public void clear() {
-		// null all elements so gc can clean up
-		for (int i = 0; i < size; i++) {
-			data[i] = null;
-		}
-
-		size = 0;
-	}
+    public void clear() {
+        data = (E[]) new Object[size];
+        size = 0;
+    }
 
 	/**
 	 * Add all items into this bag. 
